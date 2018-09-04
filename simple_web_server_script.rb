@@ -27,13 +27,9 @@ loop do
 
   # Log the request to the console for debugging purposes
   count = 0
-  request.each { 
-	  STDERR.puts count
-	  |x| STDERR.puts x
-	  count += 1
-  }
+  request.each { |x| STDERR.puts x }
 
-  response = "Hello World!\n"
+  response = request[5].split[1]
 
   # We need to include the Content-Type and Content-Length headers
   # to let the client know the size and type of data
