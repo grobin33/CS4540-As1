@@ -16,7 +16,9 @@ class WebServerTest < Minitest::Test
   STRING_END
 
   URL_AND_PROTOCOL = "/favicon.ico HTTP/1.1"
-  
+ 
+  USER_AGENT = "Mozilla/5.0"
+
   GET_REQUEST = ["GET #{URL_AND_PROTOCOL}"] + REQUEST_HEADERS.split("\n")
   PUT_REQUEST = ["PUT #{URL_AND_PROTOCOL}"] + REQUEST_HEADERS.split("\n")
   POST_REQUEST = ["POST #{URL_AND_PROTOCOL}"] + REQUEST_HEADERS.split("\n")
@@ -52,8 +54,8 @@ class WebServerTest < Minitest::Test
     assert(ws.methods.include?(:write_response))
   end
 
-   def test_response_with_get_is_handled
-    ws = WebServer.new
+  def test_response_with_get_is_handled
+    ws = WebServer.new(2350)
     
     # this is some metaprogramming -- it adds a new function to the
     # class during runtime.
@@ -67,8 +69,10 @@ class WebServerTest < Minitest::Test
     ws.set_request_lines(GET_REQUEST)
     ws.create_response
     response = ws.get_response
-
     assert(response.match(/200 OK/))
     assert(response.match(/You are using Mozilla\/5.0/))
   end
+
+
+
 end

@@ -7,7 +7,7 @@ require 'socket' # Provides TCPServer and TCPSocket classes
 
 # Initialize a TCPServer object that will listen
 # on localhost:2345 for incoming connections.
-server = TCPServer.new('localhost', 2345)
+server = TCPServer.new('localhost', 1234)
 
 # loop infinitely, processing one incoming
 # connection at a time.
@@ -19,16 +19,17 @@ loop do
   socket = server.accept
 
   # Read the first line of the request (the Request-Line)
-  request = socket.gets
-  line_2 = socket.gets
-  line_3 = socket.gets
+  request = []
 
-  # Log the request to the console for debugging
-  STDERR.puts request
-  STDERR.puts line_2
-  STDERR.puts line_3
+  10.times do
+  	request << socket.gets
+  end
 
-  response = "Hello World!\n"
+  # Log the request to the console for debugging purposes
+  count = 0
+  request.each { |x| STDERR.puts x }
+
+  response = request[5].split[1]
 
   # We need to include the Content-Type and Content-Length headers
   # to let the client know the size and type of data
@@ -48,4 +49,5 @@ loop do
 
   # Close the socket, terminating the connection
   socket.close
+
 end
